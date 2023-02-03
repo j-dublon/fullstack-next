@@ -3,8 +3,14 @@ import styles from "@styles/button.module.css";
 
 export default function Button({ children, link }) {
   return (
-    <Link href={link} className={styles.btn}>
-      {children}
-    </Link>
+    <>
+      {link ? (
+        <Link href={link} className={styles.btn}>
+          {children}
+        </Link>
+      ) : (
+        <button className={styles.btn}>{children}</button>
+      )}
+    </>
   );
 }
