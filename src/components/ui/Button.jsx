@@ -3,7 +3,7 @@ import styles from "@styles/button.module.css";
 
 export default function Button({ children, link }) {
   return (
-    <Link href={link} className={styles.button}>
+    <Link href={link} className={styles.btn}>
       {children}
     </Link>
   );
