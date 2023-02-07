@@ -1,15 +1,10 @@
-import { useRouter } from "next/router";
-import { getEventById } from "dummy-data";
+import { getEventById } from "@helpers/api-util";
 import EventContent from "@components/EventDetail/EventContent";
 import EventLogistics from "@components/EventDetail/EventLogistics";
 import EventSummary from "@components/EventDetail/EventSummary";
 import ErrorAlert from "@components/ui/error-alert/ErrorAlert";
 
-export default function EventDetailPage() {
-  const router = useRouter();
-  const eventId = router.query.eventId;
-  const details = getEventById(eventId);
-
+export default function EventDetailPage({ details }) {
   if (!details) {
     return (
       <ErrorAlert>
@@ -33,3 +28,14 @@ export default function EventDetailPage() {
     </>
   );
 }
+
+export const getStaticProps = async (context) => {
+  const eventId = context.params.eventId;
+  const event = await getEventById(eventId);
+
+  return {
+    props: {
+      details: event,
+    },
+  };
+};
