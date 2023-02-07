@@ -1,16 +1,18 @@
 import Link from "next/link";
 import styles from "@styles/button.module.css";
 
-export default function Button({ children, link }) {
+export default function Button({ children, link, onClick }) {
+  if (link) {
+    return (
+      <Link href={link} className={styles.btn}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <>
-      {link ? (
-        <Link href={link} className={styles.btn}>
-          {children}
-        </Link>
-      ) : (
-        <button className={styles.btn}>{children}</button>
-      )}
-    </>
+    <button className={styles.btn} onClick={onClick}>
+      {children}
+    </button>
   );
 }

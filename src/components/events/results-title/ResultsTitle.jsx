@@ -1,4 +1,4 @@
-import Button from "@components/ui/button";
+import Button from "@components/ui/Button";
 import styles from "@styles/results-title.module.css";
 
 function ResultsTitle({ date }) {
