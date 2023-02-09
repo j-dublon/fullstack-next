@@ -5,7 +5,7 @@ export default function EventList({ items }) {
   return (
     <ul className={styles.list}>
       {items.map((item) => (
-        <EventItem item={item} />
+        <EventItem item={item} key={item.id} />
       ))}
     </ul>
   );
