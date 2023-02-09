@@ -3,6 +3,7 @@ import styles from "@styles/event-item.module.css";
 import DateIcon from "@components/icons/date-icon";
 import AddressIcon from "@components/icons/address-icon";
 import ArrowRightIcon from "@components/icons/arrow-right-icon";
+import Image from "next/image";
 
 export default function EventItem({ item }) {
   const readableDate = new Date(item.date).toLocaleDateString("en-US", {
@@ -17,7 +18,7 @@ export default function EventItem({ item }) {
 
   return (
     <li className={styles.item}>
-      <img src={`/${item.image}`} alt={item.title} />
+      <Image src={`/${item.image}`} alt={item.title} width={250} height={160} />
       <div className={styles.content}>
         <div className={styles.summary}>
           <h2>{item.title}</h2>
