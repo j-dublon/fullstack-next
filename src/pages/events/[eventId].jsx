@@ -26,7 +26,7 @@ export default function EventDetailPage({ details }) {
         date={details.date}
         address={details.location}
         image={details.image}
-        imageAlt={details.imageAlt}
+        imageAlt={`${details.title} image`}
       />
       <EventContent>
         <p>{details.description}</p>
