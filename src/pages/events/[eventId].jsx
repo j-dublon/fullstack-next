@@ -3,6 +3,7 @@ import EventContent from "@components/EventDetail/EventContent";
 import EventLogistics from "@components/EventDetail/EventLogistics";
 import EventSummary from "@components/EventDetail/EventSummary";
 import ErrorAlert from "@components/ui/error-alert/ErrorAlert";
+import Head from "next/head";
 
 export default function EventDetailPage({ details }) {
   if (!details) {
@@ -15,6 +16,10 @@ export default function EventDetailPage({ details }) {
 
   return (
     <>
+      <Head>
+        <title>{details.title}</title>
+        <meta name="description" content={details.description} />
+      </Head>
       <EventSummary title={details.title} />
       <EventLogistics
         date={details.date}

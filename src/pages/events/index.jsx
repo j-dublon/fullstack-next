@@ -2,6 +2,7 @@ import EventList from "@components/events/EventList";
 import { getAllEvents } from "@helpers/api-util";
 import EventSearch from "../../components/events/EventSearch";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function AllEvents({ events }) {
   const router = useRouter();
@@ -12,6 +13,13 @@ export default function AllEvents({ events }) {
 
   return (
     <>
+      <Head>
+        <title>All events</title>
+        <meta
+          name="description"
+          content="Find Next events for your personal development"
+        />
+      </Head>
       <EventSearch onSearch={findEvents} />
       <EventList items={events} />
     </>

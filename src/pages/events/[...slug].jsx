@@ -3,6 +3,7 @@ import EventList from "@components/events/EventList";
 import ResultsTitle from "@components/events/results-title/ResultsTitle";
 import ErrorAlert from "@components/ui/error-alert/ErrorAlert";
 import Button from "@components/ui/Button";
+import Head from "next/head";
 
 export default function FilteredEventsPage({
   isLoading,
@@ -12,21 +13,36 @@ export default function FilteredEventsPage({
   year,
   month,
 }) {
+  const PageHeadData = () => (
+    <Head>
+      <title>Filtered events</title>
+    </Head>
+  );
+
   if (isLoading) {
-    return <p className="center">Loading...</p>;
+    return (
+      <>
+        <PageHeadData />
+        <p className="center">Loading...</p>
+      </>
+    );
   }
 
   if (hasError) {
     return (
-      <ErrorAlert>
-        <p>Invalid date. Please adjust your selection!</p>
-      </ErrorAlert>
+      <>
+        <PageHeadData />
+        <ErrorAlert>
+          <p>Invalid date. Please adjust your selection!</p>
+        </ErrorAlert>
+      </>
     );
   }
 
   if (notFound) {
     return (
       <>
+        <PageHeadData />
         <ErrorAlert>
           <p>No events found for the chosen dates!</p>
         </ErrorAlert>
@@ -45,6 +61,7 @@ export default function FilteredEventsPage({
 
   return (
     <>
+      <PageHeadData />
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </>
