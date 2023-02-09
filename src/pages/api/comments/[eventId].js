@@ -1,10 +1,20 @@
-import { MongoClient } from "mongodb";
+import {
+  connectDatabase,
+  insertDocument,
+  getAllDocuments,
+} from "@helpers/db-util";
 
 export default async function handler(req, res) {
   const eventId = req.query.eventId;
 
-  const url = `mongodb+srv://fullstack-next:${process.env.MONGODB_PASSWORD}@cluster0.qtrcbub.mongodb.net/?retryWrites=true&w=majority`;
-  const client = new MongoClient(url);
+  let client;
+
+  try {
+    client = connectDatabase();
+  } catch (err) {
+    res.status(500).json({ message: "Failed to connect to the database" });
+    return;
+  }
 
   if (req.method === "POST") {
     const { email, name, text } = req.body;
@@ -12,6 +22,7 @@ export default async function handler(req, res) {
     // TO DO: improve validation
     if (!email.includes("@") || !name || !text) {
       res.status(422).json({ message: "Invalid input" });
+      client.close();
       return;
     }
 
@@ -22,22 +33,24 @@ export default async function handler(req, res) {
       eventId,
     };
 
-    await client.connect();
-    const db = client.db("fullstack-next");
-    const result = await db.collection("comments").insertOne(newComment);
-    newComment.id = result.insertedId;
+    let result;
 
-    res.status(201).json({ message: "Comment added", comment: newComment });
+    try {
+      result = await insertDocument(client, "comments", newComment);
+      newComment._id = result.insertedId;
+      res.status(201).json({ message: "Comment added", comment: newComment });
+    } catch (err) {
+      res.status(500).json({ message: "Adding comment failed" });
+    }
   } else if (req.method === "GET") {
-    await client.connect();
-    const db = client.db("fullstack-next");
-    const comments = await db
-      .collection("comments")
-      .find()
-      .sort({ _id: -1 })
-      .toArray();
+    let comments;
 
-    res.status(200).json(comments);
+    try {
+      comments = await getAllDocuments(client, "comments", { _id: -1 });
+      res.status(200).json(comments);
+    } catch (err) {
+      res.status(500).json({ message: "Fetching all comments failed" });
+    }
   }
 
   client.close();
